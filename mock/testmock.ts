@@ -15,7 +15,7 @@ module.exports = [
     }
   },
   {
-    api: '/test2',
+    api: '/test21',
     respond() {
       return { a: Random.email('163.com') }
     }

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { match } from 'path-to-regexp'
+import chalk from 'chalk'
 
 export function getMocks(mockPath: string) {
   const mocks = require(mockPath)
@@ -34,4 +35,23 @@ export function bodyParse(req) {
       resolve({})
     }
   })
+}
+export function logger(title: string, msg: string, type: 'info' | 'warning' | 'error' = 'info') {
+  let titleMethod = chalk.green
+  let tagMethod = chalk.cyan.bold
+  switch (type) {
+    case 'warning':
+      titleMethod = chalk.yellow
+      tagMethod = chalk.yellow.bold
+      break
+    case 'error':
+      titleMethod = chalk.red
+      tagMethod = chalk.red.bold
+      break
+  }
+  return console.log(
+    `${chalk.dim(new Date().toLocaleTimeString())} ${tagMethod('[vite:mock]')} ${titleMethod(
+      title
+    )} ${titleMethod(msg)}`
+  )
 }

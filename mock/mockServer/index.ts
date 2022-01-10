@@ -1,7 +1,7 @@
 import url from 'url'
 import path from 'path'
 import { watch } from 'chokidar'
-import { getMocks, requestMethodTest, bodyParse } from './utils'
+import { getMocks, requestMethodTest, bodyParse, logger } from './utils'
 import type { Config } from './type'
 /* eslint-disable @typescript-eslint/no-var-requires */
 
@@ -24,6 +24,7 @@ export default (config: Config) => ({
         }
       })
       mocks = getMocks(mainPath)
+      logger('update', '')
     })
   },
   configureServer({ middlewares }) {
@@ -44,14 +45,17 @@ export default (config: Config) => ({
           res.statusCode = item.statusCode || 200
           if (!item.type || item.type === 'json') {
             res.setHeader('Content-Type', 'application/json')
-            return res.end(JSON.stringify(item.respond(requestParams)))
+            res.end(JSON.stringify(item.respond(requestParams)))
+            return logger('request success', `${req.method} ${req.url}`)
           } else {
-            return item.respond(requestParams)
+            item.respond(requestParams)
+            return logger('request success', `${req.method} ${req.url}`)
           }
         }
       }
       res.statusCode = 404
       res.end('404')
+      logger('request error', `${req.method} ${req.url}`, 'error')
     })
   }
 })
