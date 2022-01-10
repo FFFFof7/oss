@@ -49,6 +49,7 @@ export function logger(title: string, msg: string, type: 'info' | 'warning' | 'e
       tagMethod = chalk.red.bold
       break
   }
+  // eslint-disable-next-line no-console
   return console.log(
     `${chalk.dim(new Date().toLocaleTimeString())} ${tagMethod('[vite:mock]')} ${titleMethod(
       title
