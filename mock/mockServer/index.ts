@@ -17,15 +17,12 @@ export default (config: Config) => ({
       ignoreInitial: true
     })
     // TODO: 更新策略待优化
-    /**
-     * TODO: 热跟新无效 需要删除require缓存
-     * https://github.com/vbenjs/vite-plugin-mock/blob/be46ea7bcc691a27d149bb81417a61301f68fefb/src/createMockServer.ts#L141
-     * https://github.com/chuzhixin/vue-admin-better/blob/master/mock/index.js#L80
-     */
-    watcher.on('all', function (eventName, path) {
-      // console.log(Object.keys(require.cache))
-      // delete require.cache['']
-      console.log(eventName, path)
+    watcher.on('all', function () {
+      Object.keys(require.cache).forEach((item) => {
+        if (item.includes(mockPath)) {
+          delete require.cache[require.resolve(item)]
+        }
+      })
       mocks = getMocks(mainPath)
     })
   },
