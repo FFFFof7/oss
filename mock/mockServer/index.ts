@@ -2,10 +2,10 @@ import url from 'url'
 import path from 'path'
 import { watch } from 'chokidar'
 import { getMocks, requestMethodTest, bodyParse, logger } from './utils'
-import type { Config } from './type'
+import type { Config, Mocks } from './type'
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-let mocks = []
+let mocks: Mocks = []
 export default (config: Config) => ({
   name: 'mockServer',
   config() {
@@ -24,12 +24,18 @@ export default (config: Config) => ({
         }
       })
       mocks = getMocks(mainPath)
-      logger('update', '')
+      if (mocks) {
+        logger('update', '')
+      }
     })
   },
   configureServer({ middlewares }) {
     middlewares.use(config.baseUrl, async (req, res) => {
       const parseUrl = url.parse(req.url, true)
+      if (!mocks) {
+        res.statusCode = 404
+        return res.end('404')
+      }
       for (let i = 0; i < mocks.length; i++) {
         const item = mocks[i]
         const match = item.urlMatch(parseUrl.pathname)

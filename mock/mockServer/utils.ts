@@ -1,9 +1,20 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { match } from 'path-to-regexp'
 import chalk from 'chalk'
+import { Mocks } from './type'
 
-export function getMocks(mockPath: string) {
-  const mocks = require(mockPath)
+export function getMocks(mockPath: string): Mocks {
+  let mocks = []
+  try {
+    mocks = require(mockPath)
+  } catch (e) {
+    let stack = e.requireStack
+    if (Array.isArray(e.requireStack)) {
+      stack = '\n' + e.requireStack.join('\n')
+    }
+    logger(e.code, stack, 'error')
+    return false
+  }
   return mocks.map((mock) => {
     return {
       urlMatch: match(mock.api, { decode: decodeURIComponent }),

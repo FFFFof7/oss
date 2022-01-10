@@ -1,3 +1,3 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const test = require('./testmock')
-module.exports = [...test]
+const user = require('./user/index.ts')
+module.exports = [...user]
