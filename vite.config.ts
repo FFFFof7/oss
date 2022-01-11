@@ -1,7 +1,7 @@
 import path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import eslintPlugin from 'vite-plugin-eslint'
+// import eslintPlugin from 'vite-plugin-eslint'
 import mockServer from './mock/mockServer/'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
@@ -27,7 +27,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    eslintPlugin(),
+    // eslintPlugin(),
     Components({
       dts: true,
       resolvers: [AntDesignVueResolver()]

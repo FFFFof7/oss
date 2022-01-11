@@ -8,21 +8,7 @@
 <template>
   <RouterView v-slot="{ Component }">
     <transition name="fade">
-      <div class="container">
-        <AButton type="primary">Primary Button</AButton>
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-        <component :is="Component" />
-      </div>
+      <component :is="Component" />
     </transition>
   </RouterView>
 </template>

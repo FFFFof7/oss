@@ -1,3 +1,3 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const user = require('./user')
-module.exports = [...user]
+const sign = require('./sign.ts')
+module.exports = [...sign]
