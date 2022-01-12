@@ -1,23 +1,28 @@
 <script setup lang="ts">
+  import { ref, computed } from 'vue'
   import FullScreenLayout from '@/layout/FullScreenLayout.vue'
-  // import AccountSign from './accountSign.vue'
+  import AccountSign from './accountSign.vue'
   import QrcodeSign from './qrcodeSign.vue'
+  import login_qrcode from '@/assets/image/login_qrcode.png'
+  import login_phone from '@/assets/image/login_phone.png'
+  const signMode = ref('account')
+  const modeImg = computed(() => {
+    return signMode.value === 'account' ? login_qrcode : login_phone
+  })
+  function checkoutSignMode() {
+    signMode.value = signMode.value === 'account' ? 'qrcode' : 'account'
+  }
 </script>
 
 <template>
   <FullScreenLayout>
     <div class="login">
       <div class="sign-container">
-        <div class="sing-qrcode">
-          <img src="@/assets/image/login_qrcode.png" />
+        <div class="sing-qrcode" @click="checkoutSignMode">
+          <img :src="modeImg" />
         </div>
-        <!-- <AccountSign></AccountSign> -->
-        <QrcodeSign></QrcodeSign>
-        <!-- <AForm>
-          <AFormItem>
-            <AInput></AInput>
-          </AFormItem>
-        </AForm> -->
+        <AccountSign v-if="signMode === 'account'"></AccountSign>
+        <QrcodeSign v-else></QrcodeSign>
       </div>
     </div>
   </FullScreenLayout>

@@ -51,7 +51,11 @@ export default (config: Config) => ({
           res.statusCode = item.statusCode || 200
           if (!item.type || item.type === 'json') {
             res.setHeader('Content-Type', 'application/json')
-            res.end(JSON.stringify(item.respond(requestParams)))
+            const response = {
+              data: item.respond(requestParams),
+              code: 200
+            }
+            res.end(JSON.stringify(response))
             return logger('request success', `${req.method} ${req.url}`)
           } else {
             item.respond(requestParams)
