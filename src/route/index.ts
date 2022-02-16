@@ -1,7 +1,7 @@
 export default [
   {
-    path: '/login',
+    path: '/sign',
     component: () => import('@/views/Sign/index.vue'),
-    name: 'a'
+    name: 'sign'
   }
 ]
